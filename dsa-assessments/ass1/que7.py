@@ -22,8 +22,8 @@ def successful_pairs(spells, potions, success):
     return result
 
 
-spells = list(map(int, input().split()))
-potions = list(map(int, input().split()))
+spells = list(map(int, input().replace(",", " ").split()))
+potions = list(map(int, input().replace(",", " ").split())) 
 success = int(input())
 
 result = successful_pairs(spells, potions, success)

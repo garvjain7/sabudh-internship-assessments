@@ -22,6 +22,6 @@ def next_permutation(nums, n):
     return nums
 
 n = int(input())
-nums = list(map(int, input().split()))
+nums = list(map(int, input().replace(",", " ").split()))
 result = next_permutation(nums, n)
 print(*result)

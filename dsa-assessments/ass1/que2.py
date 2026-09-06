@@ -10,6 +10,6 @@ def max_product_triplet(arr):
     return arr[n - 3], arr[n - 2], arr[n - 1]
 
 
-arr = list(map(int, input().split()))
+arr = list(map(int, input().replace(",", " ").split()))
 result = max_product_triplet(arr)
 print(result)

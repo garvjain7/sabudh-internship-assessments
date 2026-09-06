@@ -19,6 +19,6 @@ def trap_rain_water(arr, n):
     return water
 
 n = int(input())
-arr = list(map(int, input().split()))
+arr = list(map(int, input().replace(",", " ").split()))
 result = trap_rain_water(arr, n)
 print(result)

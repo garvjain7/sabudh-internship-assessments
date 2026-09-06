@@ -26,7 +26,7 @@ def spiral_order(matrix, m, n):
 
 
 m, n = map(int, input().split())
-matrix = [list(map(int, input().split())) for _ in range(m)]
+matrix = [list(map(int, input().replace(",", " ").split())) for _ in range(m)]
 
 result = spiral_order(matrix, m, n)
 

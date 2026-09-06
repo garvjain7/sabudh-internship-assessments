@@ -19,7 +19,7 @@ def longest_subarray(arr, k):
     return max_length
 
 
-arr = list(map(int, input().split()))
+arr = list(map(int, input().replace(",", " ").split()))
 k = int(input())
 
 print(longest_subarray(arr, k))

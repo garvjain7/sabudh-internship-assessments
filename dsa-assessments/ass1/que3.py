@@ -30,5 +30,5 @@ def three_sum(nums):
     return result
 
 
-nums = list(map(int, input().split(",")))
+nums = list(map(int, input().replace(",", " ").split()))
 print(three_sum(nums))
