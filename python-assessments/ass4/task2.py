@@ -41,11 +41,13 @@ def clean_dataset(df):
 
 
 def compute_statistics(df):
-    stats = df.describe().transpose()
-    mode_val = df.mode().iloc[0]
+    numeric_df = df.select_dtypes(include=[np.number])
+    stats = numeric_df.describe().transpose()
+    stats = stats.rename(columns={"50%": "median"})
+    mode_val = numeric_df.mode().iloc[0]
     stats["mode"] = mode_val
     stats["range"] = stats["max"] - stats["min"]
-    return stats[["mean", "50%", "mode", "std", "min", "max", "range"]]
+    return stats[["mean", "median", "mode", "std", "min", "max", "range"]]
 
 
 def avg_price_by_make(df):
