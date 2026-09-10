@@ -4,11 +4,9 @@ import numpy as np
 import pandas as pd
 
 
-def load_dataset(filename="Sports car prices.csv"):
+def load_dataset(filename="Sports_car_prices.csv"):
     if os.path.exists(filename):
         return pd.read_csv(filename)
-    if os.path.exists("Sports_car_prices.csv"):
-        return pd.read_csv("Sports_car_prices.csv")
     url = "https://raw.githubusercontent.com/rkiattisak/Sports-car-prices-dataset/main/Sports%20car%20prices.csv"
     return pd.read_csv(url)
 
