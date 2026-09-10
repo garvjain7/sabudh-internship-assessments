@@ -7,12 +7,21 @@ import pandas as pd
 def load_dataset(filename="Sports_car_prices.csv"):
     if os.path.exists(filename):
         return pd.read_csv(filename)
-    url = "https://raw.githubusercontent.com/rkiattisak/Sports-car-prices-dataset/main/Sports%20car%20prices.csv"
+    if os.path.exists(os.path.join("data", "Sports_car_prices.csv")):
+        return pd.read_csv(os.path.join("data", "Sports_car_prices.csv"))
+    url = "https://raw.githubusercontent.com/garvjain7/sabudh-internship-assessments/refs/heads/main/python-assessments/ass4/data/Sports_car_prices.csv"
     return pd.read_csv(url)
 
 
 def clean_dataset(df):
     data = df.dropna().drop_duplicates().copy()
+    data = data.rename(
+        columns={
+            "Car Make": "Make",
+            "Car Model": "Model",
+            "0-60 MPH Time (seconds)": "0-60 MPH",
+        }
+    )
     cols = [
         "Horsepower",
         "Torque (lb-ft)",
@@ -20,15 +29,15 @@ def clean_dataset(df):
         "Top Speed (mph)",
         "Price (in USD)",
     ]
-    for col in cols:
-        if col in data.columns:
-            cleaned = data[col].astype(str).str.replace(
-                r"[$,HP,hp,lb-ft,\s+]", "", regex=True
-            )
-            data[col] = pd.to_numeric(cleaned, errors="coerce")
+    target_cols = [col for col in cols if col in data.columns]
+    for col in target_cols:
+        cleaned = data[col].astype(str).str.replace(
+            r"[$,HP,hp,lb-ft,\s+]", "", regex=True
+        )
+        data[col] = pd.to_numeric(cleaned, errors="coerce")
     if "Year" in data.columns:
         data["Year"] = pd.to_numeric(data["Year"], errors="coerce")
-    return data.dropna(subset=cols)
+    return data.dropna(subset=target_cols)
 
 
 def compute_statistics(df):
@@ -50,7 +59,8 @@ def avg_hp_by_year(df):
     return valid_year.groupby("Year")["Horsepower"].mean().sort_index()
 
 
-def plot_price_vs_hp(df):
+def plot_price_vs_hp(df, output_dir="output"):
+    os.makedirs(output_dir, exist_ok=True)
     fig, ax = plt.subplots(figsize=(10, 6))
     valid = df.dropna(subset=["Horsepower", "Price (in USD)"])
     ax.scatter(valid["Horsepower"], valid["Price (in USD)"], alpha=0.7)
@@ -65,11 +75,13 @@ def plot_price_vs_hp(df):
     ax.set_ylabel("Price (in USD)")
     ax.legend()
     plt.tight_layout()
-    fig.savefig("price_vs_horsepower.png")
+    filepath = os.path.join(output_dir, "price_vs_horsepower.png")
+    fig.savefig(filepath)
     return fig
 
 
-def plot_0_60_histogram(df):
+def plot_0_60_histogram(df, output_dir="output"):
+    os.makedirs(output_dir, exist_ok=True)
     valid = df.dropna(subset=["0-60 MPH"])
     min_t = valid["0-60 MPH"].min()
     max_t = valid["0-60 MPH"].max()
@@ -81,7 +93,8 @@ def plot_0_60_histogram(df):
     ax.set_xlabel("0-60 MPH Time (s)")
     ax.set_ylabel("Count")
     plt.tight_layout()
-    fig.savefig("0_60_mph_histogram.png")
+    filepath = os.path.join(output_dir, "0_60_mph_histogram.png")
+    fig.savefig(filepath)
     return fig
 
 
@@ -90,9 +103,11 @@ def filter_expensive_cars(df):
     return expensive.sort_values(by="Horsepower", ascending=False)
 
 
-def export_cleaned_data(df, filename="cleaned_sports_car_prices.csv"):
-    df.to_csv(filename, index=False)
-    return filename
+def export_cleaned_data(df, filename="cleaned_sports_car_prices.csv", output_dir="output"):
+    os.makedirs(output_dir, exist_ok=True)
+    filepath = os.path.join(output_dir, filename)
+    df.to_csv(filepath, index=False)
+    return filepath
 
 
 if __name__ == "__main__":
