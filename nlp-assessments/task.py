@@ -88,7 +88,7 @@ def scrape():
 
         records.append({
             "NEWS_TITLE": title,
-            INTERN_NAME.replace(" ", "_").upper(): INTERN_NAME,
+            "Intern Name": INTERN_NAME,
             "NEWS_LINK": link,
             "FULL_SCRAPED_TEXT": full_text,
         })
