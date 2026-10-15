@@ -1,0 +1,29 @@
+{
+  "n_reviews": 7990,
+  "pct_positive": 50.0125156445557,
+  "tfidf_similarity": {
+    "within_label_mean": 0.01629311111813195,
+    "cross_label_mean": 0.011784586887427742,
+    "within_neg": 0.01626008811575892,
+    "within_pos": 0.01632613412050499
+  },
+  "pca": {
+    "TF-IDF (SVD-50 \u2192 PCA)": {
+      "explained_var_2pc": 0.14121427116345986,
+      "silhouette_by_sentiment_full_dim": 0.011079846428971266
+    },
+    "Word2Vec (mean) \u2192 PCA": {
+      "explained_var_2pc": 0.3999704122543335,
+      "silhouette_by_sentiment_full_dim": 0.045614298433065414
+    }
+  },
+  "lda": {
+    "coherence": {
+      "5": 0.525806541055484,
+      "7": 0.4739443391922328,
+      "10": 0.46684750086047355
+    },
+    "best_k": 5,
+    "empty_docs": 530
+  }
+}
